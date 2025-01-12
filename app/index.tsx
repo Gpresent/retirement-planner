@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Dimensions } from 'react-native';
 
 const data = {
@@ -20,6 +21,11 @@ const data = {
 export default function Index() {
   const [date, setDate] = React.useState(new Date(1598051730000));
 
+  const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+  };
+
   return (
     <View
       style={{
@@ -34,7 +40,12 @@ export default function Index() {
           alignItems: 'center',
         }}>
         <Text style={{ marginRight: 10 }}>Hello</Text>
-        {/* DatePicker or other component code */}
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode='date'
+          onChange={onChange}
+          />
       </SafeAreaView>
 
       <Text>Early Withdrawal Breakdown</Text>
