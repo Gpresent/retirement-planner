@@ -1,8 +1,8 @@
 import { Stack } from "expo-router";
-import React, { useEffect, useContext, useState } from "react";
+import React from "react";
 import * as SplashScreen from "expo-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AppProvider, AppContext } from "../context/AppContext";
+import { AppProvider } from "../context/AppContext";
 
 SplashScreen.preventAutoHideAsync();
 
