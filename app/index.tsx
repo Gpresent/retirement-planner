@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { AppContext } from "../context/AppContext";
+import * as SplashScreen from "expo-splash-screen";
+import OnboardingScreen from "./onboarding";
 import { Dimensions } from 'react-native';
 
 const data = {
@@ -20,11 +23,20 @@ const data = {
 
 export default function Index() {
   const [date, setDate] = React.useState(new Date(1598051730000));
+  const { onboardingStatus } = useContext(AppContext);
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
   };
+
+  if (onboardingStatus.step < 0) {
+    return null;
+  }
+  else if (onboardingStatus.step < 3) {
+    SplashScreen.hideAsync();
+    return <OnboardingScreen />;
+  }
 
   return (
     <View
