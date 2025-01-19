@@ -43,6 +43,7 @@ export function AppProvider({ children }) {
     prepareApp();
   }, []);
 
+  // Function to update onboarding status (updates both context and AsyncStorage)
   const updateOnboardingStatus = async (newStatus) => {
     try {
       setOnboardingStatus(newStatus); // Update in memory
