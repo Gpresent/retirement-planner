@@ -1,14 +1,18 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 export const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  const [userData, setUserData] = useState(null); // In-memory user data
-  const [onboardingStatus, setOnboardingStatus] = useState({ step: -1 }); // In-memory onboarding status
+  const [userData, setUserData] = useState(null);
+  const [onboardingStatus, setOnboardingStatus] = useState({ step: -1 });
+  const [appReady, setAppReady] = useState(false);
 
-  // Load data from AsyncStorage on app start
   useEffect(() => {
+    // Keep the splash screen visible while loading resources
+    SplashScreen.preventAutoHideAsync();
+
     const loadAppData = async () => {
       try {
         const storedUserData = JSON.parse(await AsyncStorage.getItem("user_data")) || null;
@@ -21,10 +25,24 @@ export function AppProvider({ children }) {
       }
     };
 
-    loadAppData();
+    const prepareApp = async () => {
+      try {
+        // Load data
+        await loadAppData();
+
+        // Mark app as ready
+        setAppReady(true);
+      } catch (error) {
+        console.error("Error during app preparation:", error);
+      } finally {
+        // Hide splash screen
+        SplashScreen.hideAsync();
+      }
+    };
+
+    prepareApp();
   }, []);
 
-  // Function to update onboarding status (updates both context and AsyncStorage)
   const updateOnboardingStatus = async (newStatus) => {
     try {
       setOnboardingStatus(newStatus); // Update in memory
