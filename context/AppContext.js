@@ -4,15 +4,14 @@ import * as SplashScreen from "expo-splash-screen";
 
 export const AppContext = createContext();
 
+SplashScreen.preventAutoHideAsync();
+
 export function AppProvider({ children }) {
-  const [userData, setUserData] = useState(null);
-  const [onboardingStatus, setOnboardingStatus] = useState({ step: -1 });
-  const [appReady, setAppReady] = useState(false);
+  const [userData, setUserData] = useState(null); // In-memory user data
+  const [onboardingStatus, setOnboardingStatus] = useState({ step: -1 }); // In-memory onboarding status
 
+  // Load data from AsyncStorage on app start
   useEffect(() => {
-    // Keep the splash screen visible while loading resources
-    SplashScreen.preventAutoHideAsync();
-
     const loadAppData = async () => {
       try {
         const storedUserData = JSON.parse(await AsyncStorage.getItem("user_data")) || null;
@@ -25,22 +24,7 @@ export function AppProvider({ children }) {
       }
     };
 
-    const prepareApp = async () => {
-      try {
-        // Load data
-        await loadAppData();
-
-        // Mark app as ready
-        setAppReady(true);
-      } catch (error) {
-        console.error("Error during app preparation:", error);
-      } finally {
-        // Hide splash screen
-        SplashScreen.hideAsync();
-      }
-    };
-
-    prepareApp();
+    loadAppData();
   }, []);
 
   // Function to update onboarding status (updates both context and AsyncStorage)
