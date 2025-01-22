@@ -1,7 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 export const AppContext = createContext();
+
+SplashScreen.preventAutoHideAsync();
 
 export function AppProvider({ children }) {
   const [userData, setUserData] = useState(null); // In-memory user data
