@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { useSegments, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AppContext = createContext();
@@ -6,6 +7,7 @@ export const AppContext = createContext();
 export function AppProvider({ children }) {
   const [userData, setUserData] = useState(null); // In-memory user data
   const [onboardingStatus, setOnboardingStatus] = useState({ step: -1 }); // In-memory onboarding status
+  const router = useRouter();
 
   // Load data from AsyncStorage on app start
   useEffect(() => {
@@ -16,12 +18,24 @@ export function AppProvider({ children }) {
 
         setUserData(storedUserData);
         setOnboardingStatus(storedOnboardingStatus);
+
+        console.log(storedOnboardingStatus);
+
+        // Redirect to the sign-in page.
+        if (storedOnboardingStatus < 3) {
+          router.replace("/onboarding");
+        } else {
+          router.replace("/")
+        }
       } catch (error) {
         console.error("Error loading data from AsyncStorage:", error);
       }
     };
 
     loadAppData();
+
+    
+
   }, []);
 
   // Function to update onboarding status (updates both context and AsyncStorage)

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, Button } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 
 export default function OnboardingScreen() {
   const { onboardingStatus, setOnboardingStatus } = useContext(AppContext);
