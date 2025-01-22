@@ -11,7 +11,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     const loadAppData = async () => {
       try {
-        const storedUserData = JSON.parse(await AsyncStorage.getItem("user_data")) || null;
+        const storedUserData = JSON.parse(await AsyncStorage.getItem("user_data")) || {};
         const storedOnboardingStatus = JSON.parse(await AsyncStorage.getItem("onboarding_status")) || { step: 0 };
 
         setUserData(storedUserData);
