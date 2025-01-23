@@ -52,12 +52,7 @@ export default function Index() {
           alignItems: 'center',
         }}>
         <Text style={{ marginRight: 10 }}>Hello</Text>
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode='date'
-          onChange={onChange}
-          />
+        
       </SafeAreaView>
 
       <Text>Early Withdrawal Breakdown</Text>

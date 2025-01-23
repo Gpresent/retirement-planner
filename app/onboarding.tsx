@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { View, Text, Button, TextInput, Switch } from "react-native";
 import { AppContext } from "@/context/AppContext";
 import questions from "@/constants/questions";
-import DatePicker from "@/components/datepicker";
+import DatePickerModal from "@/components/DatePickerModal";
+
 
 export default function OnboardingScreen() {
   const { onboardingStatus, setOnboardingStatus, userData, setUserData } = useContext(AppContext);
@@ -16,16 +17,11 @@ export default function OnboardingScreen() {
   function formatPage(type: string) {
     const questionId = questions[onboardingStatus.step]?.id;
     const value = userData[questionId] || '';
-  
+
     switch (type) {
       case "date":
         return (
-          <DatePicker
-            value={value}
-            onChange={(newDate) =>
-              setUserData({ ...userData, [questionId]: newDate })
-            }
-          />
+          <DatePickerModal/>
         );
       case "number":
         return (
